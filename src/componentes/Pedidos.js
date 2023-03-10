@@ -28,15 +28,20 @@ export const pedido ={
         </form>
     </div>
     <div class="col-6 d-flex justify-content-center align-items-center text-center" id="descripcionCervezas">
-        <p>Eligue una cerveza para ver su descripcion</p>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+            <h3 class="card-text">Mahou Cinco Estrellas</h3> 
+                <p class="card-text">Cerveza rubia, suave y refrescante con un sabor ligeramente amargo.</p>
+            </div>
+            <img src="https://www.mahou.es/wp-content/themes/mahou_v2/template-contents/mahou-familia/dist/images/Botella_Mahou_5_Estrellas.png" class="w-50">
+        </div>
     </div>
     `,
     script: ()=>{
         console.log('hola soy pedidos')
 
-        var html=`
-        <option >Selecione una cerveza</option>
-        `
+        var html=``
+
         cervezas.forEach(cerveza => {
             html+=`<option value="${cerveza.id}">${cerveza.nombre}</option>`
         });
