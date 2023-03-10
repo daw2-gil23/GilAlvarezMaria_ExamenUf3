@@ -4968,17 +4968,11 @@ enableDismissTrigger(Toast);
 defineJQueryPlugin(Toast);
 const home = {
   template: `      
-    <div class="text-center">
-        <h1>Birras y tapas</h1> 
+    <div class="text-center" id="titulo">
     </div>
     <div class="container-fluid">
         <div class="row border m-5 shadow p-3 mb-5 bg-body-tertiary rounded pt-5" id="pedidos">
-            <div class="col-6" id="registrarPedido">
-                <p>Aqui se podra registrar los pedidos</p>
-            </div>
-            <div class="col-6 d-flex justify-content-center align-items-center text-center" id="descripcionCervezas">
-                <p>Eligue una cerveza para ver su descripcion</p>
-            </div>
+
         </div>
         <div class="row border m-5 shadow p-3 mb-5 bg-body-tertiary rounded pt-5">
             <div class="col-12" id="tabla">
@@ -5149,8 +5143,16 @@ const tablaPedidos = {
     });
   }
 };
+const header = {
+  template: ` <h1 class="pt-2">Maria Gil Alvarez</h1> `,
+  script: () => {
+    console.log("hola soy header");
+  }
+};
 document.querySelector("main").innerHTML = home.template;
 document.querySelector("#pedidos").innerHTML = pedido.template;
 pedido.script();
 document.querySelector("#tabla").innerHTML = tablaPedidos.template;
 tablaPedidos.script();
+document.querySelector("#titulo").innerHTML = header.template;
+header.script();
