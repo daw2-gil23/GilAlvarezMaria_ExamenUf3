@@ -19,5 +19,5 @@ document.querySelector('#tabla').innerHTML = tablaPedidos.template
 tablaPedidos.script()
 
 document.querySelector('#titulo').innerHTML = header.template
-header.script()
+tablaPedidos.script()
 
