@@ -1,0 +1,23 @@
+{
+  "name": "gilalvarezmaria-examenuf3-m6",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0",
+    "sass": "^1.58.3",
+    "vite": "^3.2.3"
+  },
+  "dependencies": {
+    "@multiavatar/multiavatar": "^1.0.7",
+    "@popperjs/core": "^2.11.6",
+    "bootstrap": "^5.2.3",
+    "uuid": "^9.0.0"
+  }
+}
