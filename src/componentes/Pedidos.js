@@ -24,7 +24,7 @@ export const pedido ={
             <label for="cantidad" class="form-label">Cantidad:</label>
                 <input type="number" class="form-control " id="cantidad" value="" required>
             </div>
-            <button id="enviar" type="submit" class="btn btn-success w-100 enviar">Añadir Pedido</button>
+            <button id="enviar" type="submit" class="btn btn-success w-100 enviarPedido">Añadir Pedido</button>
         </form>
     </div>
     <div class="col-6 d-flex justify-content-center align-items-center text-center" id="descripcionCervezas">

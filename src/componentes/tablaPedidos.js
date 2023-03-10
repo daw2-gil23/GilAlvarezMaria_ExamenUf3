@@ -19,7 +19,8 @@ export const tablaPedidos ={
         const formPedido = document.querySelector('#FormCervezas')
 
         main.addEventListener("click",(event)=>{
-            if(event.target.classList.contains('enviar')){
+            if(event.target.classList.contains('enviarPedido')){
+                
                 event.preventDefault();
                 formPedido.classList.add('was-validated')
             
@@ -57,34 +58,38 @@ export const tablaPedidos ={
             }
             if(event.target.classList.contains('eliminar')){
                 
-                //Cojo el id que ahi en el data-id del botton
-                let cervezaID = event.target.dataset.id
-                alert("Estás borrando el usuario con id: " + cervezaID)
+                console.log("le has dado al boton eliminar")
 
-                //Cojo el tr que tiene de id la id del usuario
-                const trId = document.getElementById(cervezaID); 
-                console.log(trId)
-                //Le añado al tr una clase para que desaparezca
-                trId.classList.add('fila-oculta')
+                // //Cojo el id que ahi en el data-id del botton
+                // let cervezaID = event.target.dataset.id
+                // alert("Estás borrando el usuario con id: " + cervezaID)
 
-                //buscamos la posicion del dato que vamos a eliminar
-                const posicion = pedidos.findIndex(pedido=>pedido.id == cervezaID)
+                // //Cojo el tr que tiene de id la id del usuario
+                // const trId = document.getElementById(cervezaID); 
+                // console.log(trId)
+                // //Le añado al tr una clase para que desaparezca
+                // trId.classList.add('fila-oculta')
 
-                console.log(posicion)
+                // //buscamos la posicion del dato que vamos a eliminar
+                // const posicion = pedidos.findIndex(pedido=>pedido.id == cervezaID)
 
-                pedidos.splice(posicion,1)
+                // console.log(posicion)
 
-                console.log(pedidos)
+                // pedidos.splice(posicion,1)
+
+                // console.log(pedidos)
             }
             if(event.target.classList.contains('editar')){
+
+                console.log("le has dado al boton editar")
                 
-                const editar = document.querySelector('#registrarPedido')
+                // const editar = document.querySelector('#registrarPedido')
 
-                editar.innerHTML = editarPerdido.template
-                //Cojo el id que ahi en el data-id del botton
-                let cervezaID = event.target.dataset.id
+                // editar.innerHTML = editarPerdido.template
+                // //Cojo el id que ahi en el data-id del botton
+                // let cervezaID = event.target.dataset.id
 
-                editarPerdido.script(cervezaID)
+                // editarPerdido.script(cervezaID)
             }
         })
         
