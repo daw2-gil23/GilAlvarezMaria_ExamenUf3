@@ -12,12 +12,12 @@ export const tablaPedidos ={
         <th scope="col">Cantidad</th>
         <th scope="col">Precio de la cerveza</th>
         <th scope="col">Precio del pedido</th>
-        <th scope="col">Precio Total gastado</th>
         </tr>
     </thead>
     <tbody id="cuerpoTabla">
     </tbody>
     </table>
+   <p id="precioTotal"><strong>Precio total: </strong></p>
     `,
     script: ()=>{
 
@@ -27,6 +27,7 @@ export const tablaPedidos ={
 
         main.addEventListener("click",(event)=>{
             if(event.target.classList.contains('enviarPedido')){
+                console.log("???")
                 
                 event.preventDefault();
                 formPedido.classList.add('was-validated')
@@ -64,6 +65,14 @@ export const tablaPedidos ={
 
                     const precioTotal = precioCerveza * inputCantidad
 
+                    var nFilas = table.rows.length
+
+                    var sumaPrecio = precioTotal
+
+                    pedidos.forEach(pedido => {
+                        sumaPrecio = sumaPrecio + pedido.precioTotalPedido
+                    });
+
                     const pedidoNuevo={
                         id:idNuevo,
                         nombre:inputNombre,
@@ -71,12 +80,18 @@ export const tablaPedidos ={
                         cerveza:inputCerveza,
                         cantidad:inputCantidad,
                         precioCerveza: precioCerveza,
-                        precioTotal: precioTotal
+                        precioTotalPedido: precioTotal, 
+                        precioTotal: sumaPrecio
                     }
     
                     pedidos.push(pedidoNuevo)
 
                     console.log(pedidos)
+
+                    console.log(sumaPrecio)
+
+
+                    document.querySelector("#precioTotal").innerHTML = `Precio total: ${sumaPrecio}`
 
                     //Inyecto en el tr los valores
                     tr.innerHTML = `
@@ -115,6 +130,15 @@ export const tablaPedidos ={
                 pedidos.splice(posicion,1)
 
                 console.log(pedidos)
+
+                var sumaPrecio = 0
+
+                pedidos.forEach(pedido => {
+                    sumaPrecio = sumaPrecio + pedido.precioTotalPedido
+                    console.log(sumaPrecio)
+                });
+
+                document.querySelector("#precioTotal").innerHTML = `Precio total: ${sumaPrecio}`
             }
             if(event.target.classList.contains('editar')){
 
@@ -195,7 +219,7 @@ export const tablaPedidos ={
                 pedidos[posicionPedido].cantidad= cantidad
                 pedidos[posicionPedido].cerveza= NuevaCerveza
                 pedidos[posicionPedido].precioCerveza= precioCerveza
-                pedidos[posicionPedido].precioTotal= precioTotal
+                pedidos[posicionPedido].precioTotalPedido= precioTotal
 
                 console.log(pedidos)
                 
@@ -214,8 +238,18 @@ export const tablaPedidos ={
                 parent.removeChild(row);
                 parent.insertBefore(row, nextSibling);
 
+                var sumaPrecio = 0
+
+                pedidos.forEach(pedido => {
+                    sumaPrecio = sumaPrecio + pedido.precioTotalPedido
+                    console.log(sumaPrecio)
+                });
+
+                document.querySelector("#precioTotal").innerHTML = `Precio total: ${sumaPrecio}`
+
                 document.querySelector('#pedidos').innerHTML = pedido.template
                 pedido.script()
+
 
 
             }
