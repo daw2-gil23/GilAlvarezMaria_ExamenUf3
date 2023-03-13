@@ -26,15 +26,17 @@ export const tablaPedidos ={
         const formPedido = document.querySelector('#FormCervezas')
 
         main.addEventListener("click",(event)=>{
+            //si ha selecionado un div con la clase enviarPedido entrara dentro
             if(event.target.classList.contains('enviarPedido')){
-                console.log("???")
-                
+
                 event.preventDefault();
+                //añadimos las validaciones
                 formPedido.classList.add('was-validated')
             
+                //si esta todo correctamente entra en el if
                 if(formPedido.checkValidity()){
+                    //quitamos la clase de la validacion
                     formPedido.classList.remove('was-validated')
-
                     const select = document.querySelector("#cervezas")
 
                     const selectedOption = select.options[select.selectedIndex]
@@ -42,6 +44,8 @@ export const tablaPedidos ={
 
                     var precioCerveza = 0 
 
+                    //hacemos esto para ver el precio de la cerveza ya que solamente tenemos el nombre
+                    //recorremos cada valor hasta que el nombre coincida
                     cervezas.forEach(cerveza => {
                         if(cerveza.nombre==inputCerveza){
                             precioCerveza = cerveza.precio
@@ -52,7 +56,7 @@ export const tablaPedidos ={
                     const inputMesa = document.querySelector("#mesa").value
                     const inputCantidad = document.querySelector("#cantidad").value
     
-                    //Guardo en la variable nuestra tabla con los usuarios
+                    //Guardo en la variable nuestra tabla con los pedidos
                     var table = document.getElementById("cuerpoTabla");
     
                     //Creo un tr con createElement 
@@ -61,18 +65,20 @@ export const tablaPedidos ={
                     //Creo un id nuevo con uuid
                     const idNuevo = uuidv4() 
 
+                    //añado un atributo al tr 
                     tr.setAttribute("id", idNuevo);
 
+                    //multipico las cervezas pedidas por lo que cuesta una cerveza para tener el total del pedido
                     const precioTotal = precioCerveza * inputCantidad
-
-                    var nFilas = table.rows.length
 
                     var sumaPrecio = precioTotal
 
+                    //recorro todo los valores de pedido y sumo el precio de cada pedido 
                     pedidos.forEach(pedido => {
                         sumaPrecio = sumaPrecio + pedido.precioTotalPedido
                     });
 
+                    //creo un nuevo pedido
                     const pedidoNuevo={
                         id:idNuevo,
                         nombre:inputNombre,
@@ -84,12 +90,10 @@ export const tablaPedidos ={
                         precioTotal: sumaPrecio
                     }
     
+                    //lo añado a pedidos
                     pedidos.push(pedidoNuevo)
 
                     console.log(pedidos)
-
-                    console.log(sumaPrecio)
-
 
                     document.querySelector("#precioTotal").innerHTML = `Precio total: ${sumaPrecio}`
 
@@ -116,26 +120,25 @@ export const tablaPedidos ={
                 let pedidoId = event.target.dataset.id
                 alert("Estás borrando el pedido con id: " + pedidoId)
 
-                //Cojo el tr que tiene de id la id del usuario
+                //Cojo el tr que tiene de id la id del pedido
                 const trId = document.getElementById(pedidoId); 
-                console.log(trId)
+
                 //Le añado al tr una clase para que desaparezca
                 trId.classList.add('fila-oculta')
 
                 //buscamos la posicion del dato que vamos a eliminar
                 const posicion = pedidos.findIndex(pedido=>pedido.id == pedidoId)
 
-                console.log(posicion)
-
+                //aqui digo que elimine un dato en la posicion indicada 
                 pedidos.splice(posicion,1)
 
                 console.log(pedidos)
 
                 var sumaPrecio = 0
 
+                //vuelvo a calcular el precio total por que como hemos eliminado datos sera diferente
                 pedidos.forEach(pedido => {
                     sumaPrecio = sumaPrecio + pedido.precioTotalPedido
-                    console.log(sumaPrecio)
                 });
 
                 document.querySelector("#precioTotal").innerHTML = `Precio total: ${sumaPrecio}`
@@ -147,6 +150,7 @@ export const tablaPedidos ={
                 //Cojo el id que ahi en el data-id del botton
                 let pedidoID = event.target.dataset.id
 
+                //creo el formulario para editar
                 var editarHtml = `
                 <form id="EditarPedido" class="needs-validation w-50 pt-2 ps-2" novalidate>
                     <label for="cervezas" class="form-label">Cervezas:</label>
@@ -160,16 +164,19 @@ export const tablaPedidos ={
                 </form>
                 `
 
+                //lo inyecto
                 editar.innerHTML = editarHtml   
 
                 var html = ``
 
                 pedidos.forEach(pedido => {
                     if(pedido.id==pedidoID){
-                        //buscamos la posicion de las cervezas
+                        //buscamos la posicion de las cervezas donde coincide el nombre
                         const posicion = cervezas.findIndex(cerveza=>cerveza.nombre == pedido.cerveza)
         
                         cervezas.forEach(cerveza => {
+                            //cuando coincide la id le pongo selected que signfica que saldra marcada
+                            //le sumo 1 por que los id empiezan por 1 en vez de 0
                             if(cerveza.id!=posicion+1){
                                 html+=`<option value="${cerveza.id}">${cerveza.nombre}</option>`
                             }else{
@@ -194,8 +201,6 @@ export const tablaPedidos ={
                 //Cojo el id que ahi en el data-id del botton
                 let pedidoID = event.target.dataset.id
 
-                console.log(pedidoID)
-
                 const select = document.querySelector("#cervezas")
 
                 const cantidad = document.querySelector("#cantidad").value
@@ -205,6 +210,7 @@ export const tablaPedidos ={
 
                 var precioCerveza = 0 
 
+                //busco el precio de la cerveza
                 cervezas.forEach(cerveza => {
                     if(cerveza.nombre==NuevaCerveza){
                         precioCerveza = cerveza.precio
@@ -214,8 +220,10 @@ export const tablaPedidos ={
                 //Busco la posicion donde esta el pedido
                 const posicionPedido = pedidos.findIndex(pedido=>pedido.id == pedidoID)
 
+                //calculo otra vez todos los datos por que se han cambiado los datos
                 const precioTotal = precioCerveza*cantidad
 
+                //cambio los datos
                 pedidos[posicionPedido].cantidad= cantidad
                 pedidos[posicionPedido].cerveza= NuevaCerveza
                 pedidos[posicionPedido].precioCerveza= precioCerveza
@@ -238,6 +246,7 @@ export const tablaPedidos ={
                 parent.removeChild(row);
                 parent.insertBefore(row, nextSibling);
 
+                //calculo de nuevo la sumaPrecio por que los datos han cambiado
                 var sumaPrecio = 0
 
                 pedidos.forEach(pedido => {
@@ -245,6 +254,7 @@ export const tablaPedidos ={
                     console.log(sumaPrecio)
                 });
 
+                //lo inyecto
                 document.querySelector("#precioTotal").innerHTML = `Precio total: ${sumaPrecio}`
 
                 document.querySelector('#pedidos').innerHTML = pedido.template

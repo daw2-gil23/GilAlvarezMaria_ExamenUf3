@@ -25,7 +25,7 @@ export const pedido ={
                 <select name="select" id="cervezas">
                 </select>
             <div class="mb-3">
-            <label for="cantidad" class="form-label">Cantidad:</label>
+            <label for="cantidad" class="form-label ">Cantidad:</label>
                 <input type="text" class="form-control " id="cantidad" value="" required pattern="^[1-9][0-9]*$">
                 <!-- mensaje si valida -->
                 <div class="valid-feedback">Todo estupendo</div>
@@ -51,18 +51,22 @@ export const pedido ={
 
         var html=``
 
+        //pasa por cada valor de la array 
         cervezas.forEach(cerveza => {
+            //hacemos un option con la id y el nombre
             html+=`<option value="${cerveza.id}">${cerveza.nombre}</option>`
         });
 
         const select = document.querySelector("#cervezas")
 
+        //lo inyectamos
         select.innerHTML = html 
 
         select.addEventListener("change", (event) => {
             //Busco la posicion donde esta el usuario
             const posicionCerveza = cervezas.findIndex(cerveza=>cerveza.id == event.target.value)
 
+            //hacemos el card con el valor de la cerveza selecionada
             const html=`
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
@@ -73,8 +77,10 @@ export const pedido ={
                 <img src="${cervezas[posicionCerveza].imagen}" class="card-img-bottom w-50 h-25" alt="FotoCerveza">
             </div>
             `
+            
             const descripcion = document.querySelector("#descripcionCervezas")
             
+            //lo inyectamos
             descripcion.innerHTML = html
         });
 
