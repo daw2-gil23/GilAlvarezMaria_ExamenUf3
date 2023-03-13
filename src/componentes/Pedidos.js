@@ -7,22 +7,26 @@ export const pedido ={
         <form id="FormCervezas" class="needs-validation w-50 pt-2 ps-2 FormCervezas" novalidate>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre del grupo:</label>
-                <input id="nombre" type="text" class="form-control nombre" required pattern="[A-Z_a-z]{1,10}">
+                <input id="nombre" type="text" class="form-control nombre" required pattern="[A-Z_a-z]{4,10}">
                 <!-- mensaje si valida -->
                 <div class="valid-feedback">Todo estupendo</div>
                 <!-- mensaje si no valida -->
-                <div class="invalid-feedback">Del 1 y 10, no espacios y solo _</div>
+                <div class="invalid-feedback">Del 4 al 10 y solo letras</div>
             </div>
             <div class="mb-3">
                 <label for="mesa" class="form-label">Mesa:</label>
-                <input type="number" class="form-control " id="mesa" value="" required>
+                <input type="text" class="form-control " id="mesa" value="" required pattern="^(1[0-5]|[1-9])$">
+                <!-- mensaje si valida -->
+                <div class="valid-feedback">Todo estupendo</div>
+                <!-- mensaje si no valida -->
+                <div class="invalid-feedback">Del 1 al 15</div>
             </div>
                 <label for="cervezas" class="form-label">Eligue tu birra:</label>
                 <select name="select" id="cervezas">
                 </select>
             <div class="mb-3">
             <label for="cantidad" class="form-label">Cantidad:</label>
-                <input type="number" class="form-control " id="cantidad" value="" required>
+                <input type="text" class="form-control " id="cantidad" value="" required pattern="^[1-9]*$">
             </div>
             <button id="enviar" type="submit" class="btn btn-success w-100 enviarPedido">Añadir Pedido</button>
         </form>
@@ -32,6 +36,7 @@ export const pedido ={
             <div class="card-body">
             <h3 class="card-text">Mahou Cinco Estrellas</h3> 
                 <p class="card-text">Cerveza rubia, suave y refrescante con un sabor ligeramente amargo.</p>
+                <p>Precio: 12</p> 
             </div>
             <img src="https://www.mahou.es/wp-content/themes/mahou_v2/template-contents/mahou-familia/dist/images/Botella_Mahou_5_Estrellas.png" class="w-50 ">
         </div>
@@ -59,6 +64,7 @@ export const pedido ={
                 <div class="card-body">
                    <h3 class="card-text">${cervezas[posicionCerveza].nombre}</h3> 
                     <p class="card-text">${cervezas[posicionCerveza].descripcion}</p>
+                    <p>Precio: ${cervezas[posicionCerveza].precio}</p>
                 </div>
                 <img src="${cervezas[posicionCerveza].imagen}" class="card-img-bottom w-50 h-25" alt="FotoCerveza">
             </div>

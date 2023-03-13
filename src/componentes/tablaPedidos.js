@@ -10,6 +10,9 @@ export const tablaPedidos ={
         <tr>
         <th scope="col">Cervezas</th>
         <th scope="col">Cantidad</th>
+        <th scope="col">Precio de la cerveza</th>
+        <th scope="col">Precio del pedido</th>
+        <th scope="col">Precio Total gastado</th>
         </tr>
     </thead>
     <tbody id="cuerpoTabla">
@@ -33,8 +36,16 @@ export const tablaPedidos ={
 
                     const select = document.querySelector("#cervezas")
 
-                    const selectedOption = select.options[select.selectedIndex];
-                    const inputCerveza = selectedOption.text;
+                    const selectedOption = select.options[select.selectedIndex]
+                    const inputCerveza = selectedOption.text
+
+                    var precioCerveza = 0 
+
+                    cervezas.forEach(cerveza => {
+                        if(cerveza.nombre==inputCerveza){
+                            precioCerveza = cerveza.precio
+                        }
+                    });
     
                     const inputNombre = document.querySelector("#nombre").value
                     const inputMesa = document.querySelector("#mesa").value
@@ -51,12 +62,16 @@ export const tablaPedidos ={
 
                     tr.setAttribute("id", idNuevo);
 
+                    const precioTotal = precioCerveza * inputCantidad
+
                     const pedidoNuevo={
                         id:idNuevo,
                         nombre:inputNombre,
                         mesa:inputMesa,
                         cerveza:inputCerveza,
-                        cantidad:inputCantidad
+                        cantidad:inputCantidad,
+                        precioCerveza: precioCerveza,
+                        precioTotal: precioTotal
                     }
     
                     pedidos.push(pedidoNuevo)
@@ -67,6 +82,8 @@ export const tablaPedidos ={
                     tr.innerHTML = `
                         <td class="px-5">${inputCerveza}</td>
                         <td class="px-5">${inputCantidad}</td>
+                        <td class="px-5">${precioCerveza}</td>
+                        <td class="px-5">${precioTotal}</td>
                         <td class="px-5"><button data-id="${pedidoNuevo.id}" type="button" class="btn btn-danger eliminar" >Eliminar</button></td>
                         <td class="px-5"><button data-id="${pedidoNuevo.id}" type="button" class="btn btn-warning editar">Editar Pedido</button></td>
                     </tr>
@@ -80,24 +97,24 @@ export const tablaPedidos ={
                 
                 console.log("le has dado al boton eliminar")
 
-                // //Cojo el id que ahi en el data-id del botton
-                // let cervezaID = event.target.dataset.id
-                // alert("Estás borrando el usuario con id: " + cervezaID)
+                //Cojo el id que ahi en el data-id del botton
+                let pedidoId = event.target.dataset.id
+                alert("Estás borrando el pedido con id: " + pedidoId)
 
-                // //Cojo el tr que tiene de id la id del usuario
-                // const trId = document.getElementById(cervezaID); 
-                // console.log(trId)
-                // //Le añado al tr una clase para que desaparezca
-                // trId.classList.add('fila-oculta')
+                //Cojo el tr que tiene de id la id del usuario
+                const trId = document.getElementById(pedidoId); 
+                console.log(trId)
+                //Le añado al tr una clase para que desaparezca
+                trId.classList.add('fila-oculta')
 
-                // //buscamos la posicion del dato que vamos a eliminar
-                // const posicion = pedidos.findIndex(pedido=>pedido.id == cervezaID)
+                //buscamos la posicion del dato que vamos a eliminar
+                const posicion = pedidos.findIndex(pedido=>pedido.id == pedidoId)
 
-                // console.log(posicion)
+                console.log(posicion)
 
-                // pedidos.splice(posicion,1)
+                pedidos.splice(posicion,1)
 
-                // console.log(pedidos)
+                console.log(pedidos)
             }
             if(event.target.classList.contains('editar')){
 
@@ -158,14 +175,27 @@ export const tablaPedidos ={
                 const select = document.querySelector("#cervezas")
 
                 const cantidad = document.querySelector("#cantidad").value
-                const selectedOption = select.options[select.selectedIndex];
-                const NuevaCerveza = selectedOption.text;
+
+                const selectedOption = select.options[select.selectedIndex]
+                const NuevaCerveza = selectedOption.text
+
+                var precioCerveza = 0 
+
+                cervezas.forEach(cerveza => {
+                    if(cerveza.nombre==NuevaCerveza){
+                        precioCerveza = cerveza.precio
+                    }
+                });
 
                 //Busco la posicion donde esta el pedido
                 const posicionPedido = pedidos.findIndex(pedido=>pedido.id == pedidoID)
 
+                const precioTotal = precioCerveza*cantidad
+
                 pedidos[posicionPedido].cantidad= cantidad
                 pedidos[posicionPedido].cerveza= NuevaCerveza
+                pedidos[posicionPedido].precioCerveza= precioCerveza
+                pedidos[posicionPedido].precioTotal= precioTotal
 
                 console.log(pedidos)
                 
@@ -175,6 +205,8 @@ export const tablaPedidos ={
                 // Modifico los valores de las celdas
                 row.cells[0].innerHTML = NuevaCerveza;
                 row.cells[1].innerHTML = cantidad;
+                row.cells[2].innerHTML = precioCerveza;
+                row.cells[3].innerHTML = precioTotal;
                 
                 //Reemplazo la fila antigua con la fila modificada en su posición original
                 var parent = row.parentNode;
