@@ -1,3 +1,7 @@
+import { pedidos } from "./Arraypedidos";
+import { v4 as uuidv4 } from 'uuid'
+import { cervezas } from "./bd";
+import { pedido } from "./Pedidos";
 
 export const tablaPedidos ={
     template:`
@@ -42,13 +46,29 @@ export const tablaPedidos ={
                     //Creo un tr con createElement 
                     var tr = document.createElement("tr");
 
+                    //Creo un id nuevo con uuid
+                    const idNuevo = uuidv4() 
+
+                    tr.setAttribute("id", idNuevo);
+
+                    const pedidoNuevo={
+                        id:idNuevo,
+                        nombre:inputNombre,
+                        mesa:inputMesa,
+                        cerveza:inputCerveza,
+                        cantidad:inputCantidad
+                    }
     
+                    pedidos.push(pedidoNuevo)
+
+                    console.log(pedidos)
+
                     //Inyecto en el tr los valores
                     tr.innerHTML = `
                         <td class="px-5">${inputCerveza}</td>
                         <td class="px-5">${inputCantidad}</td>
-                        <td class="px-5"><button type="button" class="btn btn-danger eliminar" >Eliminar</button></td>
-                        <td class="px-5"><button type="button" class="btn btn-warning editar">Editar Pedido</button></td>
+                        <td class="px-5"><button data-id="${pedidoNuevo.id}" type="button" class="btn btn-danger eliminar" >Eliminar</button></td>
+                        <td class="px-5"><button data-id="${pedidoNuevo.id}" type="button" class="btn btn-warning editar">Editar Pedido</button></td>
                     </tr>
                     `
     
@@ -81,15 +101,91 @@ export const tablaPedidos ={
             }
             if(event.target.classList.contains('editar')){
 
-                console.log("le has dado al boton editar")
+                const editar = document.querySelector('#registrarPedido')
+
+                //Cojo el id que ahi en el data-id del botton
+                let pedidoID = event.target.dataset.id
+
+                var editarHtml = `
+                <form id="EditarPedido" class="needs-validation w-50 pt-2 ps-2" novalidate>
+                    <label for="cervezas" class="form-label">Cervezas:</label>
+                    <select name="select" id="cervezas">
+                    </select>
+                    <div class="mb-3">
+                    <label for="cantidad" class="form-label">Cantidad:</label>
+                        <input type="number" class="form-control " id="cantidad" value="" required>
+                    </div>
+                    <button data-id="${pedidoID}" type="submit" class="btn btn-primary actualizar">Actualizar</button>
+                </form>
+                `
+
+                editar.innerHTML = editarHtml   
+
+                var html = ``
+
+                pedidos.forEach(pedido => {
+                    if(pedido.id==pedidoID){
+                        //buscamos la posicion de las cervezas
+                        const posicion = cervezas.findIndex(cerveza=>cerveza.nombre == pedido.cerveza)
+        
+                        cervezas.forEach(cerveza => {
+                            if(cerveza.id!=posicion+1){
+                                html+=`<option value="${cerveza.id}">${cerveza.nombre}</option>`
+                            }else{
+        
+                                html+=`<option value="${cerveza.id}" selected>${cerveza.nombre}</option>`
+                            }
+                        });
+                        document.getElementById('cantidad').value=pedido.cantidad
+                    }                   
+                });
+
+                const select = document.querySelector("#cervezas")
+
+                const formEditar = document.querySelector("#EditarPedido")
+        
+                select.innerHTML = html 
+            }
+            if(event.target.classList.contains('actualizar')){
                 
-                // const editar = document.querySelector('#registrarPedido')
+                event.preventDefault();
 
-                // editar.innerHTML = editarPerdido.template
-                // //Cojo el id que ahi en el data-id del botton
-                // let cervezaID = event.target.dataset.id
+                //Cojo el id que ahi en el data-id del botton
+                let pedidoID = event.target.dataset.id
 
-                // editarPerdido.script(cervezaID)
+                console.log(pedidoID)
+
+                const select = document.querySelector("#cervezas")
+
+                const cantidad = document.querySelector("#cantidad").value
+                const selectedOption = select.options[select.selectedIndex];
+                const NuevaCerveza = selectedOption.text;
+
+                //Busco la posicion donde esta el pedido
+                const posicionPedido = pedidos.findIndex(pedido=>pedido.id == pedidoID)
+
+                pedidos[posicionPedido].cantidad= cantidad
+                pedidos[posicionPedido].cerveza= NuevaCerveza
+
+                console.log(pedidos)
+                
+                // Selecciono la fila que deseos actualizar
+                var row = document.getElementById(pedidoID);
+
+                // Modifico los valores de las celdas
+                row.cells[0].innerHTML = NuevaCerveza;
+                row.cells[1].innerHTML = cantidad;
+                
+                //Reemplazo la fila antigua con la fila modificada en su posición original
+                var parent = row.parentNode;
+                var nextSibling = row.nextSibling;
+                parent.removeChild(row);
+                parent.insertBefore(row, nextSibling);
+
+                document.querySelector('#pedidos').innerHTML = pedido.template
+                pedido.script()
+
+
             }
         })
         

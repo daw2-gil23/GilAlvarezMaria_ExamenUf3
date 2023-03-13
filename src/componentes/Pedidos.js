@@ -33,7 +33,7 @@ export const pedido ={
             <h3 class="card-text">Mahou Cinco Estrellas</h3> 
                 <p class="card-text">Cerveza rubia, suave y refrescante con un sabor ligeramente amargo.</p>
             </div>
-            <img src="https://www.mahou.es/wp-content/themes/mahou_v2/template-contents/mahou-familia/dist/images/Botella_Mahou_5_Estrellas.png" class="w-50">
+            <img src="https://www.mahou.es/wp-content/themes/mahou_v2/template-contents/mahou-familia/dist/images/Botella_Mahou_5_Estrellas.png" class="w-50 ">
         </div>
     </div>
     `,
