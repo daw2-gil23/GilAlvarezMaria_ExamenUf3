@@ -26,7 +26,7 @@ export const pedido ={
                 </select>
             <div class="mb-3">
             <label for="cantidad" class="form-label">Cantidad:</label>
-                <input type="text" class="form-control " id="cantidad" value="" required pattern="^[1-9]*$">
+                <input type="text" class="form-control " id="cantidad" value="" required pattern="^[1-9][0-9]*$">
                 <!-- mensaje si valida -->
                 <div class="valid-feedback">Todo estupendo</div>
                 <!-- mensaje si no valida -->
